@@ -1,5 +1,5 @@
 pub fn part_one(input: &str) -> Option<u64> {
-    let ranges = input.split(',');
+    let ranges = input.trim().split(',');
     let solution = ranges
         .into_iter()
         .flat_map(|range| {
@@ -21,7 +21,7 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    let ranges = input.split(',');
+    let ranges = input.trim().split(',');
     let solution = ranges
         .into_iter()
         .flat_map(|range| {
