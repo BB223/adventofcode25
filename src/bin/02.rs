@@ -1,7 +1,9 @@
+use rayon::iter::{ParallelBridge, ParallelIterator};
+
 pub fn part_one(input: &str) -> Option<u64> {
     let ranges = input.trim().split(',');
     let solution = ranges
-        .into_iter()
+        .par_bridge()
         .flat_map(|range| {
             let numbers = range.split_once("-").unwrap();
             let lower: u64 = numbers.0.parse().unwrap();
@@ -23,7 +25,7 @@ pub fn part_one(input: &str) -> Option<u64> {
 pub fn part_two(input: &str) -> Option<u64> {
     let ranges = input.trim().split(',');
     let solution = ranges
-        .into_iter()
+        .par_bridge()
         .flat_map(|range| {
             let numbers = range.split_once("-").unwrap();
             let lower: u64 = numbers.0.parse().unwrap();

@@ -6,4 +6,5 @@ repository = "https://github.com/BB223/adventofcode25"
 authors = ["BB223"]
 
 [dependencies]
+rayon = "1.11.0"
 reqwest = { version = "0.12.24", features = ["blocking"] }
