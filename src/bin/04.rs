@@ -1,3 +1,5 @@
+use std::{thread, time::Duration};
+
 pub fn part_one(input: &str) -> Option<u64> {
     let lines = input.lines();
     let mut grid = vec![];
@@ -78,6 +80,8 @@ pub fn part_two(input: &str) -> Option<i32> {
     while removed > 0 {
         removed = 0;
         iteration = grid.clone();
+        print(&grid);
+        thread::sleep(Duration::from_millis(250));
         for (i, row) in iteration.iter().enumerate() {
             for (j, char) in row.iter().enumerate() {
                 if *char != '@' {
@@ -109,9 +113,29 @@ pub fn part_two(input: &str) -> Option<i32> {
             }
         }
     }
+    print(&grid);
     let new = grid.iter().flatten().filter(|c| **c == '@').count() as i32;
 
     Some(original - new)
+}
+
+fn braille(bits: u8) -> char {
+    let code = 0x2800 + bits as u32;
+    char::from_u32(code).unwrap()
+}
+
+fn print(map: &[Vec<char>]) {
+    print!("\x1B[0;0H");
+    map.iter().for_each(|line| {
+        line.iter().for_each(|c| {
+            if *c == '.' {
+                print!("{}{}", braille(0), braille(0))
+            } else {
+                print!("{}{}", braille(0b11111111), braille(0b11111111))
+            }
+        });
+        println!();
+    });
 }
 
 advent_of_code_25::advent_of_code!(4, Some(13), Some(43));
