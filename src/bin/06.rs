@@ -1,5 +1,3 @@
-use itertools::izip;
-
 #[derive(Debug, Clone)]
 enum Operations {
     Add,
@@ -39,23 +37,13 @@ pub fn part_one(input: &str) -> Option<u64> {
 
 pub fn part_two(input: &str) -> Option<u64> {
     let mut lines = input.lines();
-    let msn = lines.next().unwrap().chars();
-    let mmn = lines.next().unwrap().chars();
-    let lmn = lines.next().unwrap().chars();
-    let lsn = lines.next().unwrap().chars();
-    let ops = lines.next().unwrap().split_whitespace();
-    let column = izip!(msn, mmn, lmn, lsn);
+    let ops = lines.next_back().unwrap().split_whitespace();
+    let groups: Vec<Vec<char>> = lines.map(|line| line.chars().collect()).collect();
 
-    let nums: Vec<u64> = column
-        .filter_map(|(msn, mmn, lmn, lsn)| {
-            format!("{}{}{}{}", msn, mmn, lmn, lsn)
-                .replace("    ", "0")
-                .trim()
-                .parse()
-                .ok()
-        })
-        .collect();
-    let solution = nums
+    let solution = (0..groups[0].len())
+        .map(|i| groups.iter().map(|g| g[i]).collect::<String>())
+        .map(|c| c.trim().parse().unwrap_or(0))
+        .collect::<Vec<u64>>()
         .split(|n| *n == 0)
         .zip(ops)
         .filter_map(|(p, op)| {
